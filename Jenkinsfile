@@ -12,10 +12,10 @@ pipeline {
         stage('Git checkout and AWS config') {
             steps {
                 script {
-                    if ($env.BRANCH_NAME == 'master') {
+                    if (env.BRANCH_NAME == 'master') {
                         PATH = './env/prod.tfvars'
                         WORKSPACE = 'prod' }
-                    if ($env.BRANCH_NAME == 'dev') {
+                    if (env.BRANCH_NAME == 'dev') {
                         PATH = './env/dev.tfvars'
                         WORKSPACE = 'dev' }
                 }
