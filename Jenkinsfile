@@ -6,7 +6,7 @@ def selectWorkspace(branchName) {
     }
 }
 
-def varSelector(){
+def varSelector(branchName){
     if (branchName == 'dev'){
         return './env/dev.tfvars'
     }else{
