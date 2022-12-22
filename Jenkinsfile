@@ -1,3 +1,19 @@
+def selectWorkspace(branchName) {
+    if (branchName == 'dev'){
+        return 'dev'
+    }else{
+        return 'prod'
+    }
+}
+
+def varSelector(branchName){
+    if (branchName == 'dev'){
+        return './env/dev.tfvars'
+    }else{
+        return './env/prod.tfvars'
+    }
+}
+
 pipeline {
     agent any
     tools {
@@ -11,16 +27,6 @@ pipeline {
     stages {
         stage('Git checkout and AWS config') {
             steps {
-                script {
-                    if (env.BRANCH_NAME == 'master') {
-                        PATH = './env/prod.tfvars'
-                        WORKSPACE = 'prod' }
-                    if (env.BRANCH_NAME == 'dev') {
-                        PATH = './env/dev.tfvars'
-                        WORKSPACE = 'dev' }
-                }
-                sh 'echo ${env.BRANCH_NAME}'
-                git branch: '${env.BRANCH_NAME}', credentialsId: 'Github', url: 'https://github.com/accenture-interns2022/dominos-v2.git'
                 sh 'aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID && aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY && aws configure set region eu-central-1'
             }
         }
@@ -32,7 +38,7 @@ pipeline {
         stage('terraform Init') {
             steps {
                 sh 'terraform init -backend-config=$BACKEND_PATH'
-                sh 'terraform workspace select $WORKSPACE'
+                sh 'terraform workspace select ' + selectWorkspace(env.BRANCH_NAME)
             }
         }
         stage('terraform Validate') {
@@ -42,12 +48,12 @@ pipeline {
         }
         stage('terraform Plan') {
             steps {
-                sh 'terraform plan -var-file=$PATH'
+                sh 'terraform plan -var-file=' + varSelector(env.BRANCH_NAME) + ' -lock=false'
             }
         }
         stage('terraform apply') {
             steps {
-                sh 'terraform apply --auto-approve -var-file=$PATH'
+                sh 'terraform apply --auto-approve -var-file=' + varSelector(env.BRANCH_NAME) + ' -lock=false'
             }
             post {
                 success {
