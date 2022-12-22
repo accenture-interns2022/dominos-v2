@@ -24,7 +24,7 @@ pipeline {
             steps {
                 echo "Building branch: ${env.BRANCH_NAME}"
             }
-        }
+        }}
         stage('terraform Init') {
             steps {
                 sh 'terraform init -backend-config=$BACKEND_PATH'
