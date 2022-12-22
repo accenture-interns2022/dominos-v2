@@ -1,5 +1,9 @@
-def makeUppercase() {
-    return 'dev'
+def selectWorkspace(branchName) {
+    if (branchName == 'dev'){
+        return 'dev'
+    }else{
+        return 'prod'
+    }
 }
 
 pipeline {
@@ -31,7 +35,7 @@ pipeline {
         stage('terraform Init') {
             steps {
                 sh 'terraform init -backend-config=$BACKEND_PATH'
-                sh 'terraform workspace select ' + makeUppercase()
+                sh 'terraform workspace select ' + selectWorkspace(env.BRANCH_NAME)
             }
         }
         stage('terraform Validate') {
