@@ -50,7 +50,7 @@ pipeline {
             }
             post {
                 success {
-                    echo 'Hello from Artur, Alex and Ilya to Ilyasov Sabir! Terraform apply was successful.'
+                    echo 'Hello from Arturas, Alex and Ilya to Ilyasov Sabir! Terraform apply was successful.'
                 }
             }
         }
