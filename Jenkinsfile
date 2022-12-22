@@ -6,6 +6,14 @@ def selectWorkspace(branchName) {
     }
 }
 
+def varSelector(){
+    if (branchName == 'dev'){
+        return './env/dev.tfvars'
+    }else{
+        return './env/prod.tfvars'
+    }
+}
+
 pipeline {
     agent any
     tools {
@@ -17,11 +25,6 @@ pipeline {
         BACKEND_PATH = './env/backend.hcl'
     }
     stages {
-        stage('branch') {
-            steps {
-                echo "Building branch: ${env.BRANCH_NAME}"
-            }
-        }
         stage('Git checkout and AWS config') {
             steps {
                 sh 'aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID && aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY && aws configure set region eu-central-1'
@@ -45,12 +48,12 @@ pipeline {
         }
         stage('terraform Plan') {
             steps {
-                sh 'terraform plan -var-file=./env/dev.tfvars -lock=false'
+                sh 'terraform plan -var-file=' + varSelector(env.BRANCH_NAME) + '-lock=false'
             }
         }
         stage('terraform apply') {
             steps {
-                sh 'terraform apply --auto-approve -var-file=./env/dev.tfvars -lock=false'
+                sh 'terraform apply --auto-approve -var-file=' + varSelector(env.BRANCH_NAME) + '-lock=false'
             }
             post {
                 success {
