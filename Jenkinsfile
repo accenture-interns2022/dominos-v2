@@ -24,7 +24,7 @@ pipeline {
                 sh 'terraform init -backend-config=$BACKEND_PATH'
                 sh 'terraform workspace select dev'
                 sh 'echo ENV name: >>>>>>>>>'
-                sh 'echo GIT_BRANCH'
+                sh 'echo env.GIT_BRANCH'
             }
         }
         stage('terraform Validate') {
