@@ -29,6 +29,7 @@ pipeline {
         stage('terraform Init') {
             steps {
                 sh 'terraform init -backend-config=$BACKEND_PATH'
+                sh 'terraform workspace select $WORKSPACE'
             }
         }
         stage('terraform Validate') {
@@ -38,12 +39,12 @@ pipeline {
         }
         stage('terraform Plan') {
             steps {
-                sh 'terraform plan -var-file=$PROD_PATH'
+                sh 'terraform plan -var-file=$PATH'
             }
         }
         stage('terraform apply') {
             steps {
-                sh 'terraform apply --auto-approve -var-file=$PROD_PATH'
+                sh 'terraform apply --auto-approve -var-file=$PATH'
             }
             post {
                 success {
