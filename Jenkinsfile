@@ -17,8 +17,6 @@ pipeline {
         stage('branch') {
             steps {
                 echo "Building branch: ${env.BRANCH_NAME}"
-            }
-            steps {
                 echo makeUppercase("hello")
             }
         }
