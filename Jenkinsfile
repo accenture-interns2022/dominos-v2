@@ -19,12 +19,16 @@ pipeline {
                 sh 'terraform fmt'
             }
         }
+        stages {
+            stage('Branch checking') {
+            steps {
+                echo "Building branch: ${env.BRANCH_NAME}"
+            }
+        }
         stage('terraform Init') {
             steps {
                 sh 'terraform init -backend-config=$BACKEND_PATH'
                 sh 'terraform workspace select dev'
-                sh 'echo ENV name: >>>>>>>>>'
-                sh 'echo env.GIT_BRANCH'
             }
         }
         stage('terraform Validate') {
