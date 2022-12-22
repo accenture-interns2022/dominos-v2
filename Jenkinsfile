@@ -32,7 +32,7 @@ pipeline {
         }
         stage('terraform Plan') {
             steps {
-                sh 'terraform plan -var-file=./env/dev.tfvars'
+                sh 'terraform plan -var-file=./env/dev.tfvars -lock=false'
             }
         }
         stage('terraform apply') {
