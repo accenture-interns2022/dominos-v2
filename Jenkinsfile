@@ -48,12 +48,12 @@ pipeline {
         }
         stage('terraform Plan') {
             steps {
-                sh 'terraform plan -var-file=' + varSelector(env.BRANCH_NAME) + '-lock=false'
+                sh 'terraform plan -var-file=' + varSelector(env.BRANCH_NAME) + ' -lock=false'
             }
         }
         stage('terraform apply') {
             steps {
-                sh 'terraform apply --auto-approve -var-file=' + varSelector(env.BRANCH_NAME) + '-lock=false'
+                sh 'terraform apply --auto-approve -var-file=' + varSelector(env.BRANCH_NAME) + ' -lock=false'
             }
             post {
                 success {
