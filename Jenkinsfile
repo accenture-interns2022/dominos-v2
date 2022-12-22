@@ -1,7 +1,6 @@
-def makeUppercase(str) {
-    return str.toUpperCase()
+def makeUppercase() {
+    return 'dev'
 }
-
 
 pipeline {
     agent any
@@ -17,7 +16,6 @@ pipeline {
         stage('branch') {
             steps {
                 echo "Building branch: ${env.BRANCH_NAME}"
-                echo makeUppercase("hello")
             }
         }
         stage('Git checkout and AWS config') {
@@ -33,7 +31,7 @@ pipeline {
         stage('terraform Init') {
             steps {
                 sh 'terraform init -backend-config=$BACKEND_PATH'
-                sh 'terraform workspace select dev'
+                sh 'terraform workspace select ${makeUppercase()}'
             }
         }
         stage('terraform Validate') {
