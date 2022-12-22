@@ -1,3 +1,8 @@
+def makeUppercase(str) {
+    return str.toUpperCase()
+}
+
+
 pipeline {
     agent any
     tools {
@@ -9,6 +14,14 @@ pipeline {
         BACKEND_PATH = './env/backend.hcl'
     }
     stages {
+        stage('branch') {
+            steps {
+                echo "Building branch: ${env.BRANCH_NAME}"
+            }
+            steps {
+                echo makeUppercase("hello")
+            }
+        }
         stage('Git checkout and AWS config') {
             steps {
                 sh 'aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID && aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY && aws configure set region eu-central-1'
@@ -17,11 +30,6 @@ pipeline {
         stage('terraform format check') {
             steps {
                 sh 'terraform fmt'
-            }
-        }
-        stage('Branch checking') {
-            steps {
-                echo "Building branch: ${env.BRANCH_NAME}"
             }
         }
         stage('terraform Init') {
@@ -42,7 +50,7 @@ pipeline {
         }
         stage('terraform apply') {
             steps {
-                sh 'terraform apply --auto-approve -var-file=./env/dev.tfvars'
+                sh 'terraform apply --auto-approve -var-file=./env/dev.tfvars -lock=false'
             }
             post {
                 success {
