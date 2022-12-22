@@ -31,7 +31,7 @@ pipeline {
         stage('terraform Init') {
             steps {
                 sh 'terraform init -backend-config=$BACKEND_PATH'
-                sh 'terraform workspace select ${makeUppercase()}'
+                sh 'terraform workspace select ' + makeUppercase()
             }
         }
         stage('terraform Validate') {
