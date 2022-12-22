@@ -23,7 +23,7 @@ pipeline {
             steps {
                 sh 'terraform init -backend-config=$BACKEND_PATH'
                 sh 'terraform workspace select dev'
-                sh 'ENV name: >>>>>>>>>'
+                sh 'echo ENV name: >>>>>>>>>'
                 sh 'echo ${env.BRANCH_NAME}'
             }
         }
