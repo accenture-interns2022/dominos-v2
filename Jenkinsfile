@@ -19,6 +19,7 @@ pipeline {
                         PATH = './env/dev.tfvars'
                         WORKSPACE = 'dev' }
                 }
+                sh 'echo ${env.BRANCH_NAME}'
                 git branch: '${env.BRANCH_NAME}', credentialsId: 'Github', url: 'https://github.com/accenture-interns2022/dominos-v2.git'
                 sh 'aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID && aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY && aws configure set region eu-central-1'
             }
