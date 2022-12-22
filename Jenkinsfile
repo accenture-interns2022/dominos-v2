@@ -3,13 +3,13 @@ pipeline {
     tools {
         terraform 'terraform'
     }
+    if ($env.BRANCH_NAME == 'master') {
+        PATH = './env/prod.tfvars'
+        WORKSPACE = 'prod' }
+    if ($env.BRANCH_NAME == 'dev') {
+        PATH = './env/dev.tfvars'
+        WORKSPACE = 'dev' }
     environment {
-        if ($env.BRANCH_NAME == 'master') {
-            PATH = './env/prod.tfvars'
-            WORKSPACE = 'prod' }
-        if ($env.BRANCH_NAME == 'dev') {
-            PATH = './env/dev.tfvars'
-            WORKSPACE = 'dev' }
         AWS_ACCESS_KEY_ID     = credentials('jenkins-aws-secret-key-id')
         AWS_SECRET_ACCESS_KEY = credentials('jenkins-aws-secret-access-key')
         BACKEND_PATH = './env/backend.hcl'
