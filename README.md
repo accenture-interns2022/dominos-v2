@@ -1,4 +1,4 @@
-#Setting up Jenkins server
+# Setting up Jenkins server
 
 Jenkins server runs in Docker container.
 
@@ -8,13 +8,13 @@ Jenkins server runs in Docker container.
 During building process it downloads and stores needed custom providers for terraform inside 
 `.terraform.d/plugins/terraform.local/local/dominos/1.0/linux_amd64`
 
-#Setting up S3 bucket
+# Setting up S3 bucket
 Configure AWS cli, inside /S3 folder run `terraform init` `terraform apply`.
 
-#Setting up Jenkins 
+# Setting up Jenkins 
 Inside Jenkins dashboard add new 'New Item' 'Multibranch pipline'. 
 Specifie link to github project in 'Branch Sources' tab, add Jenkinsfile location to 'Build Configuration' tab. Add AWS crediantials to 
 "Manage jenkins" -> "Manage credentials". 
 
-#Setting up Webhooks
+# Setting up Webhooks
 Inside GitHub repository go to  'Settings' ->  'webbhooks' add webhook URL `http://<JenkinsURL>/github-webhook/`
