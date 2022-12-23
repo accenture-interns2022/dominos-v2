@@ -1,7 +1,8 @@
-def selectWorkspace(branchName) {
+def workspaceSelector(branchName) {
     if (branchName == 'dev'){
         return 'dev'
-    }else{
+    }
+    if (branchName == 'master'){
         return 'prod'
     }
 }
@@ -9,7 +10,8 @@ def selectWorkspace(branchName) {
 def varSelector(branchName){
     if (branchName == 'dev'){
         return './env/dev.tfvars'
-    }else{
+    }
+    if (branchName == 'master'){
         return './env/prod.tfvars'
     }
 }
@@ -25,9 +27,11 @@ pipeline {
         BACKEND_PATH = './env/backend.hcl'
     }
     stages {
-        stage('Git checkout and AWS config') {
+        stage('AWS config') {
             steps {
-                sh 'aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID && aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY && aws configure set region eu-central-1'
+                sh 'aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID && \
+                aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY && \
+                aws configure set region eu-central-1'
             }
         }
         stage('terraform format check') {
@@ -38,10 +42,11 @@ pipeline {
         stage('terraform Init') {
             steps {
                 sh 'terraform init -backend-config=$BACKEND_PATH'
-                sh 'terraform workspace select ' + selectWorkspace(env.BRANCH_NAME)
+                sh 'terraform workspace select ' + workspaceSelector(env.BRANCH_NAME)
             }
         }
         stage('terraform Validate') {
+            when {branch 'master'}
             steps {
                 sh 'terraform validate'
             }
