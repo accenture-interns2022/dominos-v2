@@ -17,4 +17,4 @@ Specifie link to github project in 'Branch Sources' tab, add Jenkinsfile locatio
 "Manage jenkins" -> "Manage credentials". 
 
 # Setting up Webhooks
-Inside GitHub repository go to  'Settings' ->  'webbhooks' add webhook URL `http://<JenkinsURL>/github-webhook/`
+Inside GitHub repository go to  'Settings' ->  'webbhooks', add webhook URL `http://<JenkinsURL>/github-webhook/`
