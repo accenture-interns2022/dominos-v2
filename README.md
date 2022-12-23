@@ -8,7 +8,7 @@ Jenkins server runs in Docker container.
 During building process it downloads and stores needed custom providers for terraform inside:
 `.terraform.d/plugins/terraform.local/local/dominos/1.0/linux_amd64`
 
-# Setting up S3 bucket
+# Setting up S3 bucket for remote backend
 Configure AWS cli, inside /S3 folder run `terraform init` `terraform apply`.
 
 # Setting up Jenkins 
