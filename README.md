@@ -13,7 +13,7 @@ Configure AWS cli, inside /S3 folder run `terraform init` `terraform apply`.
 
 # Setting up Jenkins 
 Inside Jenkins dashboard add new 'New Item' 'Multibranch pipline'. 
-Specify link to github project in 'Branch Sources' tab, provide Jenkinsfile location in your repository branch to 'Build Configuration' tab 'Script Path' input. Add AWS crediantials to 
+Specify link to github project in 'Branch Sources' tab, provide Jenkinsfile location in your repository branch to 'Build Configuration' tab 'Script Path' input. Add AWS credentials to 
 "Manage jenkins" -> "Manage credentials". 
 
 # Setting up Webhooks
